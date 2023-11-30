@@ -134,6 +134,9 @@ public class PointCloudContainer : MonoBehaviour {
             yield return webRequest.SendWebRequest();
 
             string savePath = $"Assets/Resources/frame_{fileNum}.ply";
+            // Uses 30 local files as a local buffer for the frames
+            // This is so simultaneous coroutines do not run into access errors by
+            // trying to open the same file twice
             fileNum = (fileNum + 1) % 30;
             File.WriteAllBytes(savePath, webRequest.downloadHandler.data);
 
